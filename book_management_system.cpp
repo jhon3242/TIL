@@ -1,213 +1,178 @@
 #include <stdio.h>
-int add(const char *name,const char *writer,const char *publish,const char *status, char (*arr)[4][20], int book_num);
-int same_title(char (*arr)[4][20], int book_num, const char *name);
-int same_writer(char (*arr)[4][20],int book_num, const char *writer);
-int same_publisher(char (*arr)[4][20],int book_num, const char *publisher);
-int search_title(char (*arr)[4][20], const char *name);
-int search_writer(char (*arr)[4][20], const char *writer);
-int search_publisher(char (*arr)[4][20], const char *publisher);
-int rent(char (*arr)[4][20],int book_num);
-int book_return(char (*arr)[4][20],int book_num);
+int add(char (*book_name)[30], char (*book_writer)[30], char (*book_publisher)[30], int *total_book_num);
+int compare(char *str1, char *str2);
+int search (char (*book_name)[30], char (*book_writer)[30], char (*book_publisher)[30], int *total_book_num);
+int borrow (char *book_status);
+int book_return (char *book_status);
+
 
 int main(){
-    char bookshelf[100][4][20]={NULL};
-    add("This is book", "CHOI", "APPLE","대출가능", bookshelf, 0);
-    add("That is book", "KIM", "AMAZON","대출가능", bookshelf, 1);
-    add("What is book", "LEE", "AMAZON","대출가능", bookshelf, 2);
-    add("How's book", "KIM", "AMAZON","대출가능", bookshelf, 3);
+    char book_name[100][30] ,book_writer[100][30],book_publisher[100][30], book_status[100]={0};
 
+
+    int add(char (*book_name)[30], char (*book_writer)[30], char (*book_publisher)[30], int *total_book_num);
+    int total_book_num=0, user_choice;
+
+    printf("-------------------------------\n");
+    printf("안녕하세요 도서 관리 프로그램입니다.\n\n");
+    printf("1. 책 추가하기 \n");
+    printf("2. 책 검색하기 \n");
+    printf("3. 책 빌리기 \n");
+    printf("4. 책 반납하기 \n");
+    printf("5. 프로그램 종료하기 \n");
+
+
+    while (1){
+        printf("-------------------------------\n");
+        printf("어떤 일을 도와드릴까요?\n번호를 입력해주세요 :");
+
+        scanf("%d",&user_choice);
+
+        if (user_choice==1){
+            /* 책 추가하는 함수*/
+            add(book_name, book_writer, book_publisher, &total_book_num);
+        }else if (user_choice==2){
+            /* 책 검색하는 함수*/
+            search(book_name, book_writer, book_publisher, &total_book_num);
+        }else if (user_choice==3){
+            /* 책 빌리는 함수*/
+            borrow(book_status);
+        }else if (user_choice==4){
+            /* 책 반납하는 함수*/
+            book_return(book_status);
+        }else if (user_choice==5){
+            /* 프로그램 종료 */
+            break;
+        }else{
+            printf("번호를 잘못 입력하였습니다.\n");
+        }
+    }
 
     return 0;
 }
 
+/* 책 추가하는 함수*/
+int add(char (*book_name)[30], char (*book_writer)[30], char (*book_publisher)[30], int *total_book_num){
 
+    printf("책의 이름 :");
+    scanf("%s",book_name[*total_book_num]);
 
-/* 책이름, 저자, 출판사 3개의 문자열을 작성하면 리스트에 {책이름, 저자, 출판사, 대출상태} 가 추가되는 함수
-    인자 : 책이름, 저자, 출판사,대출상태, 리스트, 몇 번째 책
-    리턴형 : 문제없이 완료되면 0 리턴
- */
+    printf("책의 저자 :");
+    scanf("%s",book_writer[*total_book_num]);
 
-int add(const char *name,const char *writer,const char *publish,const char *status, char (*arr)[4][20], int book_num){
-    int i = 0;
-    while (name[i]){
-        arr[book_num][0][i] = name[i];
-        i++;
+    printf("책의 출판사 :");
+    scanf("%s",book_publisher[*total_book_num]);
+
+    (*total_book_num)++; // 전체 책의 개수에 1 더하기
+    return 0;
+}
+/* 문자열 비교 함수 */
+int compare(char *str1, char *str2) {
+  while (*str1) {
+    if (*str1 != *str2) {
+      return 0;
     }
 
-    i = 0;
-    while (writer[i]){
-        arr[book_num][1][i] = writer[i];
-        i++;
-    }
+    str1++;
+    str2++;
+  }
 
-    i = 0;
-    while (publish[i]){
-        arr[book_num][2][i] = publish[i];
-        i++;
-    }
+  if (*str2 == '\0') return 1;
 
-    i = 0;
-    while (status[i]){
-        arr[book_num][3][i] = status[i];
-        i++;
+  return 0;
+}
+
+
+/* 책 검색하는 함수*/
+int search (char (*book_name)[30], char (*book_writer)[30], char (*book_publisher)[30], int *total_book_num){
+    int user_choice, book_num=0,check=1;
+    char contents[30]; // 검색할 내용
+    printf("어떤 것을 가지고 검색하실 건가요?\n");
+    printf("1. 책 이름\n");
+    printf("2. 책 저자\n");
+    printf("3. 책 출판사\n");
+    printf("입력 :");
+    scanf("%d",&user_choice);
+
+    printf("검색할 내용을 입력하세요. :");
+    scanf("%s",contents);
+
+    if (user_choice == 1){
+        while (book_num < *total_book_num){
+            if (compare(contents, book_name[book_num])){
+                printf("책 번호 : %d\n",book_num);
+                printf("책 제목 : %s\n",book_name[book_num]);
+                printf("책 저자 : %s\n",book_writer[book_num]);
+                printf("책 출판사 : %s\n",book_publisher[book_num]);
+                printf("더 찾으려면 1번을, 끝내려면 0을 입력하세요. : ");
+                scanf("%d",&check);
+                /* 계속 찾으려면 check 는 1 아니면 0 */
+                if (check == 0) break;
+            }
+            book_num++;
+        }
+        if (check == 1) printf("검색 결과 없습니다.\n");
+
+    }else if (user_choice == 2){
+        while (book_num < *total_book_num){
+            if (compare(contents, book_writer[book_num])){
+                printf("책 번호 : %d\n",book_num);
+                printf("책 제목 : %s\n",book_name[book_num]);
+                printf("책 저자 : %s\n",book_writer[book_num]);
+                printf("책 출판사 : %s\n",book_publisher[book_num]);
+                /* 계속 찾으려면 check 는 1 아니면 0 */
+                if (check == 0) break;
+            }
+            book_num++;
+        }
+        if (check == 1) printf("검색 결과 없습니다.\n");
+
+
+    }else if (user_choice == 3){
+        while (book_num < *total_book_num){
+            if (compare(contents, book_publisher[book_num])){
+                printf("책 번호 : %d\n",book_num);
+                printf("책 제목 : %s\n",book_name[book_num]);
+                printf("책 저자 : %s\n",book_writer[book_num]);
+                printf("책 출판사 : %s\n",book_publisher[book_num]);
+                /* 계속 찾으려면 check 는 1 아니면 0 */
+                if (check == 0) break;
+            }
+            book_num++;
+        }
+        if (check == 1) printf("검색 결과 없습니다.\n");
     }
 
     return 0;
 }
+/* 책 빌리는 함수 */
+int borrow (char *book_status){
+    int book_num;
+    printf("빌릴 책 번호를 입력해주세요. : ");
+    scanf("%d",&book_num);
 
-/* 책 제목이 같은지 확인하는 함수
-    책 번호와, 책 제목을 입력하고 책 번호에 해당하는 제목과 일치하는지 확인하는 함수이다
-    인자 : 리스트,몇 번째 책, 책 제목
-    리턴 : 일치하면 1을 리턴하고 일치하지 않으면 0을 리턴한다.
- */
-int same_title(char (*arr)[4][20],int book_num, const char *name){
-    int i=0;
+    if (book_status[book_num] == 1){
+        printf("이 책은 대출중입니다.\n");
+    } else{
+        book_status[book_num] = 1;
+        printf("책을 대출 하였습니다.\n");
 
-    while (name[i]){
-        if (arr[book_num][0][i] != name[i]){
-            return 0;
-        }
-        i++;
     }
-    if (arr[book_num][0][i] == '\0'){
-        return 1;
-    } else return 0;
-
-}
-/* 책 저자가 같은지 찾는 함수
-    책 번호와 책 저자를 입력하면 번호에 맞는 책의 저자가 입력한 저자와 동일하면 1을 리턴하는 함수이다
-    인자 : 리스트,책 번호, 책 저자
-    리턴 : 있으면 1을 없으면 0을 리턴
- */
-int same_writer(char (*arr)[4][20],int book_num, const char *writer){
-    int i = 0;
-    while (writer[i]){
-        if (arr[book_num][1][i] != writer[i] ){
-            return 0;
-        }
-        i++;
-    }
-    if (arr[book_num][1][i] == '\0'){
-        return 1;
-    } else return 0;
-}
-/* 책 출판사가 같은지 찾는 함수
-    책 번호와 책 출판사를 입력하면 번호에 맞는 책의 출판사가 입력한 출판사와 동일하면 1을 리턴하는 함수이다
-    인자 : 리스트,책 번호, 책 출판사
-    리턴 : 있으면 1을 없으면 0을 리턴
- */
-int same_publisher(char (*arr)[4][20],int book_num, const char *publisher){
-    int i = 0;
-    while (publisher[i]){
-        if (arr[book_num][2][i] != publisher[i] ){
-            return 0;
-        }
-        i++;
-    }
-    if (arr[book_num][2][i] == '\0'){
-        return 1;
-    } else return 0;
-}
-
-
-
-/* 제목으로 책 찾는 함수
-    책 제목이 같은 책이 있는지 리스트에 있는 책들을 전부 확인하는 함수로 same_title 함수를 반복실행하는 함수이다.
-    인자 : 리스트, 책 제목
-    리턴 : 제목이 같은 책이 있으면 책 정보를 출력하고 없으면 없다고 출력하고 0을 리턴한다.
- */
-
-int search_title(char (*arr)[4][20], const char *name){
-    int i = 0;
-    while (arr[i][0][0]){
-        if (same_title(arr, i, name)){
-            printf("책 제목 : %s \n",arr[i][0]);
-            printf("책 저자 : %s \n",arr[i][1]);
-            printf("책 출판사 : %s \n",arr[i][2]);
-            printf("대출상황 : %s \n\n",arr[i][3]);
-            return 1;
-        }
-        i++;
-    }
-    printf("-------------------------------- \n");
     return 0;
-
 }
 
-/* 저자로 책 찾는 함수
-    책 저자와 같은 책이 있는지 리스트에 있는 책들을 전부 확인하는 함수로 same_writer 함수를 반복실행하는 함수이다.
-    인자 : 리스트, 책 저자
-    리턴 : 저자가 같은 책이 있으면 책 정보를 출력하고 없으면 없다고 출력하고 0을 리턴한다.
- */
+/* 책 반납 함수 */
+int book_return (char *book_status){
+    int book_num;
+    printf("반납할 책 번호를 입력해주세요. : ");
+    scanf("%d",&book_num);
 
-int search_writer(char (*arr)[4][20], const char *writer){
-    int i = 0;
-    while (arr[i][0][0]){
-        if (same_writer(arr, i, writer)){
-            printf("책 제목 : %s \n",arr[i][0]);
-            printf("책 저자 : %s \n",arr[i][1]);
-            printf("책 출판사 : %s \n",arr[i][2]);
-            printf("대출상황 : %s \n\n",arr[i][3]);
-        }
-        i++;
+    if (book_status[book_num] == 0){
+        printf("이 책은 이미 반납했습니다.\n");
+    } else{
+        book_status[book_num] = 0;
+        printf("책을 반납 하였습니다.\n");
+
     }
-    printf("-------------------------------- \n");
     return 0;
-
 }
-
-/* 출판사로 책 찾는 함수
-    책 출판사와 같은 책이 있는지 리스트에 있는 책들을 전부 확인하는 함수로 same_publisher 함수를 반복실행하는 함수이다.
-    인자 : 리스트, 책 출판사
-    리턴 : 출판사가 같은 책이 있으면 책 정보를 출력하고 없으면 없다고 출력하고 0을 리턴한다.
- */
-
-int search_publisher(char (*arr)[4][20], const char *publisher){
-    int i = 0;
-    while (arr[i][0][0]){
-        if (same_publisher(arr, i, publisher)){
-            printf("책 제목 : %s \n",arr[i][0]);
-            printf("책 저자 : %s \n",arr[i][1]);
-            printf("책 출판사 : %s \n",arr[i][2]);
-            printf("대출상황 : %s \n\n",arr[i][3]);
-        }
-        i++;
-    }
-    printf("-------------------------------- \n");
-    return 0;
-
-
-}
-/* 대출 기능을 하는 함수
-    책의 상태를 "대출중" 이라고 바꾸는 함수
-    인자 : 리스트,책 번호
-    리턴 : 무사히 진행되면 1을 리턴
- */
-int rent(char (*arr)[4][20],int book_num){
-    int i=0;
-    char sur[13] = "대출중";
-    while (sur[i]){
-        arr[book_num][3][i] = sur[i];
-        i++;
-    }
-    arr[book_num][3][i] = '\0';
-    return 1;
-}
-
-
-/* 책 반납 함수
-    책을 반납하여 대출상황을 다시 "대출가능"으로 바꾸는 함수이다.
-    인자 : 리스트, 책 번호
-    리턴 : 무사히 실행되면 1을 리턴
- */
-int book_return(char (*arr)[4][20],int book_num){
-    int i=0;
-    char sur[13] = "대출가능";
-    while (sur[i]){
-        arr[book_num][3][i] = sur[i];
-        i++;
-    }
-    arr[book_num][3][i] = '\0';
-    return 1;
-}
-
