@@ -4,12 +4,12 @@ int compare(char *str1, char *str2);
 int search (struct books *p, int *total_book_num);
 int borrow (struct books *p);
 int book_return (struct books *p);
-
+enum {usalbe, in_use};
 struct books{
     char book_name[100][30]; // 책 이름
     char book_writer[100][30]; // 책 저자
     char book_publisher[100][30]; // 책 출판사
-    int book_status[100]={0}; // 책 대출여부 (0 : 대출가능 / 1: 대출중)
+    int book_status[100]={0};
 };
 
 int main(){
@@ -158,10 +158,10 @@ int borrow (struct books *p){
     printf("빌릴 책 번호를 입력해주세요. : ");
     scanf("%d",&book_num);
 
-    if (p -> book_status[book_num] == 1){
+    if (p -> book_status[book_num] == in_use){
         printf("이 책은 대출중입니다.\n");
     } else{
-        p -> book_status[book_num] = 1;
+        p -> book_status[book_num] = in_use;
         printf("책을 대출 하였습니다.\n");
 
     }
@@ -174,10 +174,10 @@ int book_return (struct books *p){
     printf("반납할 책 번호를 입력해주세요. : ");
     scanf("%d",&book_num);
 
-    if (p ->book_status[book_num] == 0){
+    if (p ->book_status[book_num] == usalbe){
         printf("이 책은 이미 반납했습니다.\n");
     } else{
-        p ->book_status[book_num] = 0;
+        p ->book_status[book_num] = usalbe;
         printf("책을 반납 하였습니다.\n");
 
     }
