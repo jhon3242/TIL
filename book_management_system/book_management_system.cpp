@@ -15,7 +15,7 @@ struct books{
 int main(){
     struct books list;
     int total_book_num=0, user_choice;
-
+    printf("test");
     printf("-------------------------------\n");
     printf("안녕하세요 도서 관리 프로그램입니다.\n\n");
     printf("1. 책 추가하기 \n");
