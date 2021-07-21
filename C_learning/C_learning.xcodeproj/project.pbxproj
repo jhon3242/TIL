@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1BEC7D22269FF2490081716C /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BEC7D21269FF2490081716C /* main.c */; };
-		1BEC7D2A269FF2910081716C /* str.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BEC7D29269FF2910081716C /* str.c */; };
+		1B5C4DC426A7DDC3007866CB /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5C4DC326A7DDC3007866CB /* main.c */; };
+		1B5C4DC726A7DDF8007866CB /* node_function.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5C4DC626A7DDF8007866CB /* node_function.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,6 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B5C4DC326A7DDC3007866CB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		1B5C4DC526A7DDF8007866CB /* node_function.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = node_function.h; sourceTree = "<group>"; };
+		1B5C4DC626A7DDF8007866CB /* node_function.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = node_function.c; sourceTree = "<group>"; };
 		1BEC7D1E269FF2490081716C /* C_learning */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = C_learning; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEC7D21269FF2490081716C /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		1BEC7D28269FF2910081716C /* str.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = str.h; sourceTree = "<group>"; };
@@ -41,6 +44,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B5C4DC126A7DDA6007866CB /* Node */ = {
+			isa = PBXGroup;
+			children = (
+				1B5C4DC526A7DDF8007866CB /* node_function.h */,
+				1B5C4DC626A7DDF8007866CB /* node_function.c */,
+				1B5C4DC326A7DDC3007866CB /* main.c */,
+			);
+			path = Node;
+			sourceTree = "<group>";
+		};
 		1BEC7D15269FF2490081716C = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +73,7 @@
 		1BEC7D20269FF2490081716C /* C_learning */ = {
 			isa = PBXGroup;
 			children = (
+				1B5C4DC126A7DDA6007866CB /* Node */,
 				1BEC7D21269FF2490081716C /* main.c */,
 				1BEC7D28269FF2910081716C /* str.h */,
 				1BEC7D29269FF2910081716C /* str.c */,
@@ -123,8 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BEC7D22269FF2490081716C /* main.c in Sources */,
-				1BEC7D2A269FF2910081716C /* str.c in Sources */,
+				1B5C4DC426A7DDC3007866CB /* main.c in Sources */,
+				1B5C4DC726A7DDF8007866CB /* node_function.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
