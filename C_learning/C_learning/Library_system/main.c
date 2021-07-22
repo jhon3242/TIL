@@ -5,8 +5,11 @@
 
 
 int main(){
-    struct books list;
+    
     int total_book_num=0, user_choice;
+    struct books * head=NULL;
+    struct books * next=NULL;
+
     printf("-------------------------------\n");
     printf("안녕하세요 도서 관리 프로그램입니다.\n\n");
     printf("1. 책 추가하기 \n");
@@ -24,16 +27,24 @@ int main(){
 
         if (user_choice==1){
             /* 책 추가하는 함수*/
-            add(&list, &total_book_num);
+            if (total_book_num == 0){
+                /* 헤더 노드 생성 */
+                next = add_head(&total_book_num);
+                head = next;
+            } else{
+                /* 일반 노드 생성 */
+                next = add(next,&total_book_num);
+            }
+            
         }else if (user_choice==2){
             /* 책 검색하는 함수*/
-            search(&list, &total_book_num);
+            search(head);
         }else if (user_choice==3){
             /* 책 빌리는 함수*/
-            borrow(&list);
+            borrow(head);
         }else if (user_choice==4){
             /* 책 반납하는 함수*/
-            book_return(&list);
+            book_return(head);
         }else if (user_choice==5){
             /* 프로그램 종료 */
             break;
