@@ -16,8 +16,8 @@ void search (struct books *head);
 int borrow (struct books *head);
 int book_return (struct books *head);
 int print_list(struct books *head);
-FILE *make_stream(struct books **phead,struct books ** pnext, int *total_num);
-FILE *append_stream(void);
+FILE *readlist_stream(struct books **phead,struct books ** pnext, int *total_num);
+FILE *newlist_stream(void);
 void node_writing(FILE *fp, struct books *book);
 int list_print(FILE *fp,struct books *head);
 

@@ -19,15 +19,15 @@ int main(){
     printf("-------------------------------\n");
     printf("안녕하세요 도서 관리 프로그램입니다.\n\n");
     printf("기존 리스트에 이어서 사용 하시겠습니까?\n");
+    printf("-------------------------------\n");
     printf("맞으면 1번, 아니면 2번을 입력해주세요 : \n");
     scanf("%d",&user_choice);
     if (user_choice == 1){
         /* 리스트 파일 가져오기 */
-        fp = make_stream(phead,pnext,&total_book_num);
+        fp = readlist_stream(phead,pnext,&total_book_num);
     } else {
         /* 리스트 새로 만들기 */
-        fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "w+");
-        fputs("책번호 책이름 저자 출판사 대출여부\n", fp);
+        fp = newlist_stream();
     }
     
     
@@ -52,7 +52,7 @@ int main(){
             if (total_book_num == 0){
                 /* 헤더 노드 생성 */
                 next = add_head(&total_book_num);
-                head = next;
+                head = next; // 첫번째 노드를 헤드로 지정한다.
             } else{
                 /* 일반 노드 생성 */
                 next = add(next,&total_book_num);
@@ -71,14 +71,16 @@ int main(){
             book_return(head);
         }else if (user_choice==5){
             /* 프로그램 종료 */
+            
             list_print(fp,head);
+            
             break;
         }else{
             printf("번호를 잘못 입력하였습니다.\n");
         }
         
     }
-    
+    //fputs(" ", fp);
     fclose(fp);
     return 0;
 }

@@ -179,10 +179,10 @@ int book_return (struct books *head){
 }
 
 
-/* 기존에 파일에 있던 내용을 노드에 추가하고 스트림을 리턴하는 함수 */
-FILE *make_stream(struct books **phead,struct books ** pnext, int *total_num){
+/* 기존에 파일에 있던 내용을 읽고 노드에 추가하고 스트림을 리턴하는 함수 */
+FILE *readlist_stream(struct books **phead,struct books ** pnext, int *total_num){
     struct books *current=NULL;
-    char num[30],able[10];
+    char num[10]={},usable[20]={};
     int first = 1;
     FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "r+");
     /* 기존 파일을 읽어서 노드에 등록하는 작업*/
@@ -196,9 +196,9 @@ FILE *make_stream(struct books **phead,struct books ** pnext, int *total_num){
             fscanf(fp,"%s",p->book_name);
             fscanf(fp,"%s",p->book_writer);
             fscanf(fp,"%s",p->book_publisher);
-            fscanf(fp,"%s",able);
+            fscanf(fp,"%s",usable);
             
-            if (strcmp("available", able) == 0){
+            if (strcmp("available", usable) == 0){
                 p->book_status = usalbe;
                 
             } else {
@@ -216,8 +216,8 @@ FILE *make_stream(struct books **phead,struct books ** pnext, int *total_num){
             fscanf(fp,"%s",p->book_name);
             fscanf(fp,"%s",p->book_writer);
             fscanf(fp,"%s",p->book_publisher);
-            fscanf(fp,"%s",able);
-            if (strcmp("available", able) == 0){
+            fscanf(fp,"%s",usable);
+            if (strcmp("available", usable) == 0){
                 p->book_status = usalbe;
             } else {
                 p->book_status = in_use;
@@ -235,12 +235,13 @@ FILE *make_stream(struct books **phead,struct books ** pnext, int *total_num){
 }
 
 
-FILE *append_stream(void){
-    FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "a+");
+FILE *newlist_stream(void){
+    FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "w+");
     if (fp == NULL){
         printf("stream ERROR\n");
         return fp;
     }
+    fputs("책번호 책이름 저자 출판사 대출여부\n", fp);
     fseek(fp, 0, SEEK_SET);
     return fp;
 }
@@ -252,11 +253,11 @@ int list_print(FILE *fp,struct books *head){
     while (from){
         fprintf(fp, "%d %s %s %s ",from->book_num,from->book_name,from->book_writer,from->book_publisher);
         if (from -> book_status == usalbe){
-            fputs("available\n",fp);
+            fputs("available",fp);
         } else {
-            fputs("unavailable\n",fp);
+            fputs("unavailable",fp);
         }
-        
+        fputs("\n", fp);
         from = from -> next ;
     }
     
