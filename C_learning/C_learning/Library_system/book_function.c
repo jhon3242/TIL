@@ -176,3 +176,27 @@ int book_return (struct books *head){
     return 0;
 }
 
+/* 책 리스트 출력 함수 */
+int print_list(struct books *head){
+    struct books *from = head;
+    FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "w");
+    if (fp == NULL) {
+        printf("fp ERROR\n");
+        return 0;
+    }
+    fprintf(fp, "책 번호 / 책 이름 / 저자 / 출판사 / 대출가능\n");
+    while (from){
+        fprintf(fp, "%d / %s / %s / %s /  ",from->book_num,from->book_name,from->book_writer,from->book_publisher);
+        if (from -> book_status == usalbe){
+            fprintf(fp, "available\n");
+        } else {
+            fprintf(fp, "unavailable\n");
+        }
+        from = from -> next ;
+    }
+    printf("출력을 완료 했습니다.\n");
+    fclose(fp);
+    
+    
+    return 0;
+}

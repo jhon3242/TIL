@@ -16,11 +16,14 @@ int main(){
     printf("2. 책 검색하기 \n");
     printf("3. 책 빌리기 \n");
     printf("4. 책 반납하기 \n");
-    printf("5. 프로그램 종료하기 \n");
+    printf("5. 책 리스트 출력하기 \n");
+    printf("6. 프로그램 종료하기 \n");
+    
 
 
     while (1){
         printf("-------------------------------\n");
+        printf("현재 등록된 책의 개수 : %d 개\n",total_book_num);
         printf("어떤 일을 도와드릴까요?\n번호를 입력해주세요 :");
 
         scanf("%d",&user_choice);
@@ -46,6 +49,9 @@ int main(){
             /* 책 반납하는 함수*/
             book_return(head);
         }else if (user_choice==5){
+            /* 책 리스트 출력 함수 */
+            print_list(head);
+        }else if (user_choice==6){
             /* 프로그램 종료 */
             break;
         }else{

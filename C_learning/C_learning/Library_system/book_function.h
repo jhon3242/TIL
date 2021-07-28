@@ -14,5 +14,5 @@ struct books * add_head( int *total_book_num);
 void search (struct books *head);
 int borrow (struct books *head);
 int book_return (struct books *head);
-
+int print_list(struct books *head);
 
