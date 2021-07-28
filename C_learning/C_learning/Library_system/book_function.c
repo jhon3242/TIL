@@ -2,6 +2,7 @@
 #include "book_function.h"
 #include "string.h"
 #include <stdio.h>
+#include <string.h>
 
 /* 헤더 노드 생성 함수 */
 struct books * add_head( int *total_book_num){
@@ -41,7 +42,6 @@ struct books * add(struct books *current, int *total_book_num){
     current -> next = p; // 이전 노드와 연결
     return p;
 }
-
 
 
 /* 책 검색하는 함수*/
@@ -160,12 +160,14 @@ int book_return (struct books *head){
     while (from){
         if (from->book_num == book_num){
             printf("-------------------------------\n");
-            if (from -> book_status == in_use){
+            if (from -> book_status == usalbe){
                 printf("이 책은 이미 반납했습니다\n");
+                
                 return 0;
             } else{
-                from -> book_status = in_use;
+                from -> book_status = usalbe;
                 printf("책을 반납 하였습니다.\n");
+                
                 return 0;
 
             }
@@ -176,27 +178,91 @@ int book_return (struct books *head){
     return 0;
 }
 
-/* 책 리스트 출력 함수 */
-int print_list(struct books *head){
-    struct books *from = head;
-    FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "w");
-    if (fp == NULL) {
-        printf("fp ERROR\n");
-        return 0;
-    }
-    fprintf(fp, "책 번호 / 책 이름 / 저자 / 출판사 / 대출가능\n");
-    while (from){
-        fprintf(fp, "%d / %s / %s / %s /  ",from->book_num,from->book_name,from->book_writer,from->book_publisher);
-        if (from -> book_status == usalbe){
-            fprintf(fp, "available\n");
+
+/* 기존에 파일에 있던 내용을 노드에 추가하고 스트림을 리턴하는 함수 */
+FILE *make_stream(struct books **phead,struct books ** pnext, int *total_num){
+    struct books *current=NULL;
+    char num[30],able[10];
+    int first = 1;
+    FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "r+");
+    /* 기존 파일을 읽어서 노드에 등록하는 작업*/
+    fseek(fp, strlen("책번호 이름 저자 출판사 대출여부\n"), SEEK_SET);
+    
+    while (fscanf(fp,"%s",num) != EOF){
+        struct books *p = (struct books *)malloc(sizeof(struct books));
+        if (first == 1){
+            /* 헤드 노드 생성*/
+            p->book_num = *total_num;
+            fscanf(fp,"%s",p->book_name);
+            fscanf(fp,"%s",p->book_writer);
+            fscanf(fp,"%s",p->book_publisher);
+            fscanf(fp,"%s",able);
+            
+            if (strcmp("available", able) == 0){
+                p->book_status = usalbe;
+                
+            } else {
+                p->book_status = in_use;
+            }
+            p -> next = NULL; // 다음 노드에 null 입력
+            *total_num += 1  ;
+            *phead = p;
+            current = p;
+            first = 0; // 다음부터는 헤드 생성을 안하게 한다.
         } else {
-            fprintf(fp, "unavailable\n");
+            
+            /* 일반 노드 생성*/
+            p->book_num = *total_num;
+            fscanf(fp,"%s",p->book_name);
+            fscanf(fp,"%s",p->book_writer);
+            fscanf(fp,"%s",p->book_publisher);
+            fscanf(fp,"%s",able);
+            if (strcmp("available", able) == 0){
+                p->book_status = usalbe;
+            } else {
+                p->book_status = in_use;
+            }
+            p -> next = current -> next; // 이전 노드가 가리키고 있던 것을 가리킴
+            current->next = p ; // 이전 노드와 연결
+            *total_num += 1;
         }
+        current = p;
+    }
+    *pnext = current;
+    fseek(fp, 0, SEEK_SET);
+    
+    return fp;
+}
+
+
+FILE *append_stream(void){
+    FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "a+");
+    if (fp == NULL){
+        printf("stream ERROR\n");
+        return fp;
+    }
+    fseek(fp, 0, SEEK_SET);
+    return fp;
+}
+
+int list_print(FILE *fp,struct books *head){
+    struct books *from = head;
+    fseek(fp, 0, SEEK_SET); // 읽는 작업에서 입력하는 작업으로 바뀌기 때문에 해준다.
+    fputs("책번호 이름 저자 출판사 대출여부\n",fp);
+    while (from){
+        fprintf(fp, "%d %s %s %s ",from->book_num,from->book_name,from->book_writer,from->book_publisher);
+        if (from -> book_status == usalbe){
+            fputs("available\n",fp);
+        } else {
+            fputs("unavailable\n",fp);
+        }
+        
         from = from -> next ;
     }
+    
     printf("출력을 완료 했습니다.\n");
-    fclose(fp);
-    
-    
     return 0;
 }
+
+
+
