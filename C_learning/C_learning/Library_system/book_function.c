@@ -180,7 +180,7 @@ int book_return (struct books *head){
 
 
 /* 기존에 파일에 있던 내용을 읽고 노드에 추가하고 스트림을 리턴하는 함수 */
-FILE *readlist_stream(struct books **phead,struct books ** pnext, int *total_num){
+void readlist_stream(struct books **phead,struct books ** pnext, int *total_num){
     struct books *current=NULL;
     char num[10]={},usable[20]={};
     int first = 1;
@@ -231,10 +231,11 @@ FILE *readlist_stream(struct books **phead,struct books ** pnext, int *total_num
     *pnext = current;
     fseek(fp, 0, SEEK_SET);
     
-    return fp;
+    fclose(fp);
+    
 }
 
-
+/* 새로운 스트림을 만드는 함수 */
 FILE *newlist_stream(void){
     FILE *fp = fopen("/Users/choewonjun/Documents/GitHub/C_TIL/C_learning/C_learning/Library_system/list.txt", "w+");
     if (fp == NULL){
@@ -246,6 +247,7 @@ FILE *newlist_stream(void){
     return fp;
 }
 
+/* 노드에 있는 내용들을 파일에 입력하는 함수 */
 int list_print(FILE *fp,struct books *head){
     struct books *from = head;
     fseek(fp, 0, SEEK_SET); // 읽는 작업에서 입력하는 작업으로 바뀌기 때문에 해준다.
@@ -265,5 +267,43 @@ int list_print(FILE *fp,struct books *head){
     return 0;
 }
 
+/* 책 삭제 함수
+    번호에 해당하는 책을 삭제하는 함수이다.
+    인자 : 헤드 노드 포인터, 책 전체 개수 변수 포인터
+    리턴 : 0
+ */
+int remove_book(struct books **head,int *total_book_num){
+    struct books *from=NULL;
+    struct books *before=NULL;
+    int book_num;
+    from = *head;
+    
+    printf("삭제할 책 번호를 입력하세요 : ");
+    scanf("%d",&book_num);
+    if (book_num == 0){
+        *head = from -> next;
+        
+        free(from);
+        *total_book_num -= 1;
+        printf("-------------------------------\n");
+        printf("삭제를 완료했습니다.\n");
+        return 0;
+    }
+    while (from){
+        if (from -> book_num == book_num){
+            before -> next = from -> next;
+            free(from);
+            *total_book_num -= 1;
+            printf("-------------------------------\n");
+            printf("삭제를 완료했습니다.\n");
+            return 0;
+        }
+        before = from;
+        from = from -> next;
+    }
+    printf("-------------------------------\n");
+    printf("해당 번호의 책이 존재하지 않습니다.\n");
+    return 0;
+}
 
 

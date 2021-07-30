@@ -20,15 +20,14 @@ int main(){
     printf("안녕하세요 도서 관리 프로그램입니다.\n\n");
     printf("기존 리스트에 이어서 사용 하시겠습니까?\n");
     printf("-------------------------------\n");
-    printf("맞으면 1번, 아니면 2번을 입력해주세요 : \n");
+    printf("맞으면 1번, 아니면 아무 숫자나 입력해주세요 : \n");
     scanf("%d",&user_choice);
     if (user_choice == 1){
         /* 리스트 파일 가져오기 */
-        fp = readlist_stream(phead,pnext,&total_book_num);
-    } else {
-        /* 리스트 새로 만들기 */
-        fp = newlist_stream();
+        readlist_stream(phead,pnext,&total_book_num);
     }
+    /* 리스트 새로 만들기 */
+    fp = newlist_stream();
     
     
     
@@ -40,7 +39,8 @@ int main(){
         printf("2. 책 검색하기 \n");
         printf("3. 책 빌리기 \n");
         printf("4. 책 반납하기 \n");
-        printf("5. 프로그램 종료하기 \n");
+        printf("5. 책 삭제하기 \n");
+        printf("6. 프로그램 종료하기 \n");
         printf("-------------------------------\n");
         printf("현재 등록된 책의 개수 : %d 개\n",total_book_num);
         printf("어떤 일을 도와드릴까요?\n번호를 입력해주세요 :");
@@ -57,9 +57,6 @@ int main(){
                 /* 일반 노드 생성 */
                 next = add(next,&total_book_num);
             }
-            
-            
-            
         }else if (user_choice==2){
             /* 책 검색하는 함수*/
             search(head);
@@ -70,6 +67,9 @@ int main(){
             /* 책 반납하는 함수*/
             book_return(head);
         }else if (user_choice==5){
+            /* 책 삭제하는 함수*/
+            remove_book(&head,&total_book_num);
+        }else if (user_choice==6){
             /* 프로그램 종료 */
             
             list_print(fp,head);
