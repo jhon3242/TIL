@@ -3,56 +3,16 @@
 #include <stdlib.h>
 #include <math.h>
 void buy(int box,float prise ,int *wallet, float *total_buy, float *total_count);
+void sell(float prise ,int *wallet, float *total_buy, float *total_count, float profit_ratio);
 int main(){
-    /*
-    int wallet = 10000,day=1;
-    float prise,profit_ratio,mean_prise=43.3,total_count=0,total_buy=0;
 
-
-    FILE *fp = fopen("/Users/choewonjun/Desktop/HellowWorld/HellowWorld/close.txt", "r");
-    if (fp == NULL){
-        printf("fp ERROR");
-        return 0;
-    }
-    while (fscanf(fp,"%f", &prise)!= EOF){
-        if (day == 1) {
-            buy(500, prise, &wallet, &total_buy, &total_count);
-        } else {
-            profit_ratio = prise / mean_prise * 100 - 100;
-            mean_prise = total_buy / total_count;
-            if (profit_ratio >= 10){
-     /*           /* sell function */
-    /*
-            } else if (wallet > 0){
-                if (mean_prise > prise ){
-     */
-                    /* buy 500 box */
-    /*
-                    buy(500, prise, &wallet,&total_buy,&total_count);
-                } else {
-     */
-                    /* buy 250 box */
-    /*
-                    buy(250, prise, &wallet,&total_buy,&total_count);
-                }
-
-            } else {
-                printf("We don't have any money\n");
-            }
-        }
-        printf("%.2f    %.2f\n",profit_ratio,mean_prise);
-        day ++;
-    }
-
-    fclose(fp);
-    */
-    int wallet = 10000,day=1;
+    int wallet = 5000,day=1;
     float prise,profit_ratio=0,mean_prise=13,total_count=0,total_buy=0;
-    int count = 0,days=0,buy_count=0;
+    int count = 0,sell_count=0;
     char *record_date,*temp;
-    char start_date[20];
+    char start_date[20]; //= "2021-03-04";
 
-    char size[71];
+    char size[80];
 
     FILE *fp = fopen("/Users/choewonjun/Downloads/FNGU.csv", "r");
 
@@ -61,61 +21,65 @@ int main(){
         return 0;
     }
 
-
-
-    printf("one day before start date (yyyy-mm-dd) : ");
+    printf("one day before start date (yyyy-mm-dd) : \n");
     scanf("%s",start_date);
 
+
     while (1){
-        fgets(size, 71, fp); // 하루 주가 정보를 배열에 넣음
+        fgets(size, 80, fp); // 하루 주가 정보를 배열에 넣음
         record_date = strtok(size, ","); // 쉼표를 분리
         if (!strcmp(record_date, start_date)) break;
     }
-    while (fgets(size, 71, fp) != NULL){
-        record_date = strtok(size, ","); // 쉼표를 분리
-        printf("%s\n",record_date); // 날짜 출력
-        strtok(NULL, ","); // 시작가
-        strtok(NULL, ","); // 고가
-        strtok(NULL, ","); // 저가
-        temp = strtok(NULL, ","); //종가
-        prise= atof(temp); // 종가 문자열을 부동소수로 바꾸기
-        prise = round(prise * 100) / 100;
+    while (strcmp(record_date, "2021-07-29")){
+        day = 1;
+        while (fgets(size, 80, fp) != NULL){
+            record_date = strtok(size, ","); // 쉼표를 분리
+            //printf("%s\n",record_date); // 날짜 출력
+            strtok(NULL, ","); // 시작가
+            strtok(NULL, ","); // 고가
+            strtok(NULL, ","); // 저가
+            temp = strtok(NULL, ","); //종가
+            prise= atof(temp); // 종가 문자열을 부동소수로 바꾸기
+            prise = round(prise * 100) / 100;
 
-        /* 수익률 구하는 부분*/
+            /* 수익률 구하는 부분*/
 
-        if (day == 1) {
-            buy(500, prise, &wallet, &total_buy, &total_count);
-            mean_prise = prise;
-        } else {
-            profit_ratio = prise / mean_prise * 100 - 100;
-            mean_prise = total_buy / total_count;
-            if (profit_ratio >= 10){
-               /* sell function */
-                buy_count++;
-
-            } else if (wallet > 0){
-                if (mean_prise > prise ){
-                    /* buy 500 box */
-                    buy(500, prise, &wallet,&total_buy,&total_count);
-                } else {
-
-                    /* buy 250 box */
-                    buy(250, prise, &wallet,&total_buy,&total_count);
-                }
+            if (day == 1) {
+                buy(125, prise, &wallet, &total_buy, &total_count);
+                mean_prise = prise;
             } else {
-                printf("We don't have any money\n");
+                profit_ratio = prise / mean_prise * 100 - 100;
+                mean_prise = total_buy / total_count;
+                if (profit_ratio >= 10){
+                   /* sell function */
+                    sell(prise, &wallet, &total_buy, &total_count, profit_ratio);
+                    printf("날짜 : %s\n",record_date);
+                    sell_count++;
+                    break;
+
+                } else if (wallet > prise){
+                    if (mean_prise > prise ){
+                        /* buy 500 box */
+                        buy(62, prise, &wallet,&total_buy,&total_count);
+                    } else {
+
+                        /* buy 250 box */
+                        buy(125, prise, &wallet,&total_buy,&total_count);
+                    }
+                } else {
+                    printf("We don't have any money\n");
+                }
             }
+            day ++;
+            count ++;
         }
-        printf("%.2f    %.2f\n",profit_ratio,mean_prise);
-        day ++;
-        count ++;
     }
-    printf("------------------------\n");
-    printf("남은 금액 : %d\n",wallet);
-    printf("총 매입 : %f\n",total_buy);
-    printf("평단가 : %.2f\n",mean_prise);
-    printf("최종 수익률 : %.2f\n",profit_ratio);
-    printf("매도 횟수 : %d\n",buy_count);
+    printf("-----------종료--------------\n");
+    printf("시작 전 자본금 : 5000\n");
+    printf("최종 총 자본금 : %.1f\n",wallet+total_buy);
+    printf("매도 횟수 : %d\n",sell_count);
+    printf("시작 날짜 : %s\n",start_date);
+    printf("종료 날짜 : %s\n",record_date);
 
     fclose(fp);
 
@@ -132,8 +96,13 @@ void buy(int box,float prise ,int *wallet, float *total_buy, float *total_count)
 
 void sell(float prise ,int *wallet, float *total_buy, float *total_count, float profit_ratio){
 
-    profit_ratio
-
-    *total_count -= *total_count / 10;
+    float net_profit = prise * (*total_count) - (*total_buy);
+    *wallet += net_profit + (*total_buy);
+    *total_count = 0;
+    *total_buy = 0;
+    printf("---------판매 완료----------\n");
+    printf("자본금 : %d\n",*wallet);
+    printf("순이익 : %.2f\n",net_profit);
 
 }
+
