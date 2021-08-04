@@ -4,9 +4,10 @@
 #include <math.h>
 #include "fun.h"
 void buy(int *total_count, int box, float prise, int *capital, float *total_buy, float *mean_prise){
-    *total_count += box / prise;  // 총 구매량
-    *total_buy += (box / prise) * prise; // 총 구입금액
-    *capital -= (box / prise) * prise; // 자본
+    int count = box / prise; // 구매량
+    *total_count += count;  // 총 구매량
+    *total_buy += count * prise; // 총 구입금액
+    *capital -= count * prise; // 자본
     *mean_prise = *total_buy / *total_count; // 평단가
 }
 
@@ -61,11 +62,16 @@ int program(char *start_date, FILE *fp, int start_money){
         if (day - 1 == 0){
             /* first buy */
             buy(&total_count, box, prise, &capital, &total_buy, &mean_prise);
-
+            mean_prise = prise;
+            //printf("------buy------\n");
+            //printf("current prise : %.2f \n",prise);
+            //printf("mean    prise : %.2f \n",mean_prise);
+            //printf("profit : %.2f \n",profit);
+            //printf("D + %d \n\n",day);
         } else {
             /* not day 1*/
-            profit = (prise / mean_prise) * 100 -100 ; // 수익률
-            current_buy_value = total_buy + total_buy * profit / 100; // 현재 가치
+            profit = (prise / mean_prise) * 100 -100 ; // 구매전 수익률
+
             if (profit >= 10){
 
                 /* sell function */
@@ -86,9 +92,14 @@ int program(char *start_date, FILE *fp, int start_money){
             } else {
                 /* buy function */
                 if (capital <= 0) {
-                    printf("No More Money\n");
+                    if (net_profit >= box){
+                        buy(&total_count, box, prise, &capital, &total_buy, &mean_prise); // 이전 이익에서 가져오기
+                        net_profit -= box ;
+                    } else {
+                        printf("No More Money\n");
+                        return -1;
+                    }
 
-                    return -1;
                 }
                 if (prise >= mean_prise ){
                     buy(&total_count, box / 2, prise, &capital, &total_buy, &mean_prise);
@@ -96,13 +107,17 @@ int program(char *start_date, FILE *fp, int start_money){
                 } else{
                     buy(&total_count, box, prise, &capital, &total_buy, &mean_prise);
                 }
-                profit = (prise / mean_prise) * 100 -100 ; // 수익률
+                profit = (prise / mean_prise) * 100 -100 ; // 구매 이후 수익률
+                current_buy_value = total_buy + total_buy * profit / 100; // 현재 가치
                 //printf("------buy------\n");
                 //printf("current prise : %.2f \n",prise);
                 //printf("mean    prise : %.2f \n",mean_prise);
                 //printf("profit : %.2f \n",profit);
-                //printf("date : %s\n\n",check_date);
-                //printf("total value : %.2f\n",current_buy_value + capital );
+                //printf("total   buy : %.2f \n",total_buy);
+                //printf("total   count : %d \n",total_count);
+                //printf("net   profit : %.2f \n",total_buy * profit/100);
+                //printf("date : %s\n",check_date);
+                //printf("total value : %.2f\n\n",current_buy_value + capital );
                 //printf("D + %d \n\n",day);
             }
         }
