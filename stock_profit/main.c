@@ -11,7 +11,7 @@ int main(){
     char start_date[12]="2020-10-12" ;
     char tiker[10];
     float max=0,temp=1;
-    int plus=0,minus=0;
+    int plus=0,minus=0,sum=0;
 
 
 
@@ -51,6 +51,8 @@ int main(){
             max = temp;
             strcpy(best_date, start_date);
         }
+
+        sum += temp;
     }
 
     printf("\n\n");
@@ -60,7 +62,7 @@ int main(){
     printf("best date : %s\n",best_date);
     printf("best date net profitR : %.2f\n\n",max);
     printf("plus ratio : %.2f \n", (float)plus *100 /  213 );
-
+    printf("average profit : %d \n",sum / 213);
 
 
     fclose(fp);

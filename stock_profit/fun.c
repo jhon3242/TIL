@@ -86,7 +86,7 @@ int program(char *start_date, FILE *fp, int start_money){
                 profit = (prise / mean_prise) * 100 -100 ; // 구매전 수익률
             }
 
-
+            /* 수익률이 10% 를 넘었을 때*/
             if (profit >= 10){
 
                 /* sell function */
@@ -106,8 +106,8 @@ int program(char *start_date, FILE *fp, int start_money){
                 printf("sold date : %s \n\n",check_date);
                  */
 
-            } else {
-                /* buy function */
+            } else { /* buy function */
+
                 if (capital <= 0) {
                     if (net_profit >= box){
                         buy(box, prise); // 이전 이익에서 가져오기
@@ -123,7 +123,7 @@ int program(char *start_date, FILE *fp, int start_money){
                 if (prise < mean_prise || mean_prise ==0 ){
                     buy(box, prise); // 주가가 평단가보다 싸거나 판매 이후 첫 매수일 때
                 } else{
-                    //buy(box/2, prise);
+                    buy(box/2, prise);
                 }
                 profit = (prise / mean_prise) * 100 -100 ; // 구매 이후 수익률
                 current_buy_value = total_buy + total_buy * profit / 100; // 현재 가치
