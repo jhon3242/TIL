@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #define CAPACITY 100
 #define BUFFER_LENGTH 100
@@ -31,6 +32,7 @@ int main(){
     char *command, *argument;
     char name_str[BUFFER_LENGTH];
     while (1){
+
         printf("$ ");
         if (read_line(stdin, command_line, BUFFER_LENGTH)<=0){
             continue; // 입력을 안하면 다시실행
@@ -50,6 +52,7 @@ int main(){
                 continue;
             }
             handle_add(name_str); // 나머지 정보도 입력 받음
+
 
 
         }else if (strcmp(command, "find")==0){
@@ -84,6 +87,7 @@ int main(){
         } else if (strcmp(command, "exit") == 0){
                 break;
         }
+
     }
 
 
@@ -111,10 +115,37 @@ void add(char *name, char *number, char *email, char *group){
     directory[i+1].number = number;
     directory[i+1].email = email;
     directory[i+1].group = group;
-
     n++;
-}
 
+}
+/* 'add 이름' 을 했을 때 나머지 정보도 입력 받아서 추가해주는 함수*/
+void handle_add(char *name){
+    char *mal_name,*number, *email, *group;
+    char empty[] = " ";
+    mal_name=(char *)malloc(BUFFER_LENGTH * sizeof(char));
+    number=(char *)malloc(BUFFER_LENGTH * sizeof(char));
+    email=(char *)malloc(BUFFER_LENGTH * sizeof(char));
+    group=(char *)malloc(BUFFER_LENGTH * sizeof(char));
+    strcpy(mal_name, name);
+
+    printf("Phone : ");
+    read_line(stdin, number, BUFFER_LENGTH);
+
+    printf("Email : ");
+    read_line(stdin, email, BUFFER_LENGTH);
+
+    printf("Group : ");
+    read_line(stdin, group, BUFFER_LENGTH);
+
+
+    add(mal_name,
+        (char *)(strlen(number)>0 ? number : empty),
+        (char *)(strlen(email)>0 ? email : empty),
+        (char *)(strlen(group)>0 ? group : empty)
+        );
+
+
+}
 /* 파일에 저장된 데이터를 읽어와 구조체에 저장한다 */
 void load(char *file_name){
     char buffer[BUFFER_LENGTH];
@@ -152,7 +183,7 @@ int compose_name(char str[] ,int limit){
 
     while ((ptr = strtok(NULL, " ")) != NULL){
         if (length + strlen(ptr) + 1 < limit ){
-            str[length ++ ] =" "; // 이름 사이에 빈칸을 넣어줘야하기 때문
+            str[length ++ ] = ' '; // 이름 사이에 빈칸을 넣어줘야하기 때문
             str[length] = '\0'; // strcat 을 위해선 두 문자열이 널 문자(캐릭터)로 끝나있어야 하기 떄문
             strcat(str, ptr);
             length += strlen(ptr);
@@ -162,27 +193,7 @@ int compose_name(char str[] ,int limit){
 
     return length;
 }
-/* 'add 이름' 을 했을 때 나머지 정보도 입력 받아서 추가해주는 함수*/
-void handle_add(char *name){
-    char number[BUFFER_LENGTH], email[BUFFER_LENGTH], group[BUFFER_LENGTH];
-    char empty[] = " ";
-    printf("Phone : ");
-    read_line(stdin, number, BUFFER_LENGTH);
 
-    printf("Email : ");
-    read_line(stdin, email, BUFFER_LENGTH);
-
-    printf("Group : ");
-    read_line(stdin, group, BUFFER_LENGTH);
-
-
-    add(name,
-        (char *)(strlen(number)>0 ? number : empty),
-        (char *)(strlen(email)>0 ? email : empty),
-        (char *)(strlen(group)>0 ? group : empty)
-        );
-
-}
 void find(char *name){
 
     int index = search(name);
@@ -236,6 +247,10 @@ void removes(char *name){
         return;
     }
     int j = index;
+    free(directory[j].name);
+    free(directory[j].number);
+    free(directory[j].email);
+    free(directory[j].group);
     while (j<n-1){
         directory[j] = directory[j+1];
         j++;
