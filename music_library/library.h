@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#define BUFFER_LENGHTS 100
 
 typedef struct song Song;
 typedef struct snode SNode;
@@ -28,7 +29,7 @@ struct song{
     char *path;
     int index;
 };
-
+void load(FILE *fp);
 void initialize(void);
 void add_song(char *artist, char *title, char *path);
 Artist * find_artist(char *name);
@@ -38,4 +39,13 @@ void insert_node(Artist *ptr_artist, SNode *ptr_snode);
 void print_song(Song *p);
 void print_artist(Artist *p);
 void status(void);
+void search_song(char *artist, char *title);
+SNode *find_snode(Artist *ptr_artist, char *title);
+void insert_to_index_directory(Song *ptr_song);
+void play(int index);
+void save_artist(Artist *p, FILE *fp);
+void save(FILE *fp);
+void removes(int index);
+void remove_snode(Artist *ptr_artist, SNode *ptr_snode);
+
 #endif
