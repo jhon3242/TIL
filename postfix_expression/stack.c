@@ -1,22 +1,9 @@
+
 #include <stdlib.h>
 #include "stack.h"
 #include "string_tools.h"
 
-typedef char Item;
 
-struct node
-{
-    Item data;
-    struct node *next;
-};
-
-struct stack
-{
-    struct node *top;
-};
-
-typedef struct node *Node;
-typedef struct stack *Stack;
 
 
 Stack creat_stack(void){
@@ -41,7 +28,7 @@ Item pop(Stack s){
     Item p = s->top->data;
     Node n = s->top;
     s->top = s->top->next;
-    n->data = 0;
+    n->data = 0;                //make NULL
     n->next = NULL;
     free(n);
     
@@ -50,4 +37,10 @@ Item pop(Stack s){
 
 Item peek (Stack s){
     return (s->top->data);
+}
+
+int is_empty(Stack s){
+    if (s->top->data == 0)
+        return (1);
+    return (0);
 }
