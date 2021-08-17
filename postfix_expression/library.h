@@ -14,8 +14,10 @@
 #include "stack.h"
 
 static  char OPERATIONS[] = "+-/*" ;
+static  int  PRECEDENCE[] = {1,1,2,2} ;
 int is_operator(char ch);
 int eval(char *expr);
 Item eval_op(char op);
-
+char *process_op(char op, char *pos);
+char * convert(char *infix);
 #endif /* library_h */

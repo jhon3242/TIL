@@ -12,6 +12,11 @@
 
 
 Stack operand_stack;          //피연산자를 저장할 스택
+Stack operator_stack;         //연산자를 저장할 스택
+
+int precedence(char op){        //연산자 우선순위를 리턴
+    return PRECEDENCE[is_operator(op)];
+}
 
 int is_operator(char ch){
     for (int i =0; i < strlen(OPERATIONS);i++){
@@ -57,4 +62,58 @@ Item eval_op(char op){
         case '*' : result = (front * back); break;
     }
     return (result);
+}
+
+char * convert(char *infix){
+    operator_stack = creat_stack();
+
+    char *postfix = (char *)malloc(sizeof(infix)+1);    // 후위 표기식
+    char *pos = postfix ;       // 다음 데이터를 저장할 위치 저장
+    char *token = strtok(infix, " ");
+
+    while (token != NULL){
+        if(*token >= '0' && *token <= '9'){         //피연산자
+            sprintf(pos,"%s ", token);
+            pos += (strlen(token) + 1) ;
+        }else if (is_operator(*token) > -1){             //연산자
+            pos = process_op(*token, pos);
+        }else{
+            terminate("Invalid character encounter.\n");
+        }
+        token = strtok(NULL, " ");
+    }
+    while (!is_empty(operator_stack)){
+        Item top_op = pop(operator_stack);
+        sprintf(pos,"%c ", top_op);
+        pos += 2;
+    }
+    *pos = '\0';
+    return postfix;
+
+}
+
+char *process_op(char op, char *pos){
+
+    if (is_empty(operator_stack))
+        push(operator_stack, op);
+    else{
+        Item top_op = peek(operator_stack);
+        if (precedence(top_op) < precedence(op) ){
+            push(operator_stack, op);
+        }else{
+            while (!is_empty(operator_stack) && precedence(top_op) >= precedence(op)){
+                pop(operator_stack);
+                sprintf(pos, "%c ", top_op);
+                pos += 2;
+
+                if (!is_empty(operator_stack)){
+                    top_op = peek(operator_stack);
+                }
+            }
+            push(operator_stack, op);
+        }
+    }
+    return (pos);
+
+
 }

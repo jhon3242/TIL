@@ -40,7 +40,7 @@ Item peek (Stack s){
 }
 
 int is_empty(Stack s){
-    if (s->top->data == 0)
+    if (s->top == NULL)
         return (1);
     return (0);
 }
