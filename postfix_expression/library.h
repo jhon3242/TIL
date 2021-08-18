@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include "stack.h"
 
-static  char OPERATIONS[] = "+-/*" ;
-static  int  PRECEDENCE[] = {1,1,2,2} ;
+static  char OPERATIONS[] = "+-/*()" ;
+static  int  PRECEDENCE[] = {1,1,2,2,-1,-1} ;
 int is_operator(char ch);
 int eval(char *expr);
 Item eval_op(char op);

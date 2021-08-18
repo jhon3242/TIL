@@ -5,10 +5,14 @@
 #define BUFFER_SIZE 100
 int main(){
     
-    char command[BUFFER_SIZE];
+    char infix[BUFFER_SIZE]={0};
+    char *postfix;
     
-    read_line(stdin, command, BUFFER_SIZE);
-    eval(command);
+    read_line(stdin, infix, BUFFER_SIZE);
+    printf(" %s = ",infix);
+    
+    postfix = convert(infix);
+    printf("%s\n",postfix);
     
     return (0);
 }

@@ -66,11 +66,11 @@ Item eval_op(char op){
 
 char * convert(char *infix){
     operator_stack = creat_stack();
-
+    
     char *postfix = (char *)malloc(sizeof(infix)+1);    // 후위 표기식
     char *pos = postfix ;       // 다음 데이터를 저장할 위치 저장
     char *token = strtok(infix, " ");
-
+    
     while (token != NULL){
         if(*token >= '0' && *token <= '9'){         //피연산자
             sprintf(pos,"%s ", token);
@@ -89,12 +89,12 @@ char * convert(char *infix){
     }
     *pos = '\0';
     return postfix;
-
+    
 }
 
 char *process_op(char op, char *pos){
-
-    if (is_empty(operator_stack))
+    
+    if (is_empty(operator_stack) || op == '(') // 여는 괄호면 무조건 push
         push(operator_stack, op);
     else{
         Item top_op = peek(operator_stack);
@@ -103,17 +103,20 @@ char *process_op(char op, char *pos){
         }else{
             while (!is_empty(operator_stack) && precedence(top_op) >= precedence(op)){
                 pop(operator_stack);
+                if (top_op == '(')          // op가 ')' 인 경우
+                    break;
                 sprintf(pos, "%c ", top_op);
                 pos += 2;
-
-                if (!is_empty(operator_stack)){
+                
+                if (!is_empty(operator_stack))
                     top_op = peek(operator_stack);
-                }
             }
-            push(operator_stack, op);
+            if (op != ')')
+                push(operator_stack, op);
+
         }
     }
     return (pos);
-
-
+    
+    
 }
