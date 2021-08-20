@@ -42,7 +42,7 @@ Queue create(void)
     return (q);
 }
 
-void destory(Queue q)
+void destroy(Queue q)
 {
     free(q->contents);
     q->contents = NULL;
