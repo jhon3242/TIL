@@ -25,8 +25,8 @@ int main(){
     int *p;
     /*
     int **p;
-    int a = ft_ultimate_range(p,1,10);
+    int a = make_range(p,1,10);
     */
-    int a = ft_ultimate_range(&p,1,10);
+    int a = make_range(&p,1,10);
     return 0;
 }
