@@ -86,17 +86,9 @@ int main(){
             } else {
                 minus++;
             }
-            
-
             sum += temp;
         }
-
-        
     }
-
-    
-
-
     fclose(fp);
     fclose(s_fp);
 
