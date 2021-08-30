@@ -10,6 +10,7 @@
 		1B4DA8EE26A93F86006EB427 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B4DA8ED26A93F86006EB427 /* main.c */; };
 		1B4DA8F126A93FDB006EB427 /* book_function.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B4DA8F026A93FDB006EB427 /* book_function.c */; };
 		1B4DA8F426A93FF8006EB427 /* string.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B4DA8F326A93FF8006EB427 /* string.c */; };
+		1B55729526DCD6DC0099BB36 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B55729326DCD6DC0099BB36 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,8 @@
 		1B4DA8F026A93FDB006EB427 /* book_function.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = book_function.c; sourceTree = "<group>"; };
 		1B4DA8F226A93FF8006EB427 /* string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = string.h; sourceTree = "<group>"; };
 		1B4DA8F326A93FF8006EB427 /* string.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = string.c; sourceTree = "<group>"; };
+		1B55729326DCD6DC0099BB36 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1B55729426DCD6DC0099BB36 /* main.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = main.hpp; sourceTree = "<group>"; };
 		1B5C4DC326A7DDC3007866CB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		1B5C4DC526A7DDF8007866CB /* node_function.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = node_function.h; sourceTree = "<group>"; };
 		1B5C4DC626A7DDF8007866CB /* node_function.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = node_function.c; sourceTree = "<group>"; };
@@ -94,6 +97,8 @@
 				1B5C4DC126A7DDA6007866CB /* Node */,
 				1B4DA8EB26A93F32006EB427 /* Library_system */,
 				1BEC7D21269FF2490081716C /* main.c */,
+				1B55729326DCD6DC0099BB36 /* main.cpp */,
+				1B55729426DCD6DC0099BB36 /* main.hpp */,
 				1BEC7D28269FF2910081716C /* str.h */,
 				1BEC7D29269FF2910081716C /* str.c */,
 			);
@@ -158,6 +163,7 @@
 			files = (
 				1B4DA8F126A93FDB006EB427 /* book_function.c in Sources */,
 				1B4DA8EE26A93F86006EB427 /* main.c in Sources */,
+				1B55729526DCD6DC0099BB36 /* main.cpp in Sources */,
 				1B4DA8F426A93FF8006EB427 /* string.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
