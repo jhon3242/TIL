@@ -1,3 +1,0 @@
-책번호 이름 저자 출판사 대출여부
-0 a s d unavailable
-2 z x c available
