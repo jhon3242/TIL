@@ -8,4 +8,5 @@ elif 13 <= age <= 18:
 else:
 	balance -= 1250
 
+# print
 print(balance)
