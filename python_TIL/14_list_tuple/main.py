@@ -200,7 +200,24 @@ print(a)
 a = [1.2, 2.5, 3.7, 4.6]
 a = list(map(int, a))
 print(a)
-"""
+
 a = list(map(str, range(10)))
 print(a)
 
+
+a = (10, 20, 30, 40)
+print(a.index(30))
+
+
+a = (10, 20, 30, 40)
+for i in a:
+	print(i)
+
+
+a = tuple(i for i in range(10) if i % 2 == 0)
+print(a)
+"""
+
+a = 1.2, 2.5, 3.6, 4.1
+a = tuple(map(int, a))
+print(a)
