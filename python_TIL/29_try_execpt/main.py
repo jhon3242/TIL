@@ -36,7 +36,45 @@ except ZeroDivisionError as e:
 	print(e)
 else:
 	print(y)
+
+
+
+def fn():
+	a = int(input())
+	try:
+		if a % 3 != 0:
+			raise Exception('3의 배수가 아니다.')
+		print(a)
+	except Exception as a:
+		print(a)
+		raise RuntimeError('런타임 에러')
+
+try:
+	fn()
+except:
+	print('예외 발생')
+
+
+
+
+
+
+x = int(input())
+assert x % 3 == 0, '3의 배수가 아니다.'
+print(x)
 """
 
+class NotThreeMultipleError(Exception):
+	def __init__(self):
+		super().__init__('3의 배수가 아닙니다.')
 
+def fn():
+	try:
+		x = int(input())
+		if x % 3 != 0:
+			raise NotThreeMultipleError
+		print(x)
+	except Exception as e:
+		print('예외 발생', e)
 
+fn()
