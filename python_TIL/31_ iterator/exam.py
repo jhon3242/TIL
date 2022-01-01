@@ -40,11 +40,14 @@ class TimeIterator:
 					h = 0
 		return h,m,s
 
-start, stop, index = map(int, input().split())
+#start, stop, index = map(int, input().split())
 #print(TimeIterator(start, stop)[2])
-
+"""
 for i in TimeIterator(start, stop):
     print(i)
 
 print('\n', TimeIterator(start, stop)[index], sep='')
 
+"""
+
+print(list(TimeIterator(2, 5)))
