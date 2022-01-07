@@ -40,7 +40,7 @@ for i in range(20):
 	co.send(i)
 
 co.close()
-"""
+
 
 
 def number_coroutine():
@@ -59,3 +59,29 @@ for i in range(20):
 	co.send(i)
 
 co.close()
+"""
+
+def accumulate():
+	total = 0
+	while True:
+		x = (yield)
+		if x is None:
+			return total
+		total += x
+
+def sum_coroutine():
+	while True:
+		total = yield from accumulate()
+		print(total)
+
+co = sum_coroutine()
+next(co)
+
+
+for i in range(1, 11):    # 1부터 10까지 반복
+    co.send(i)            # 코루틴 accumulate에 숫자를 보냄
+co.send(None)             # 코루틴 accumulate에 None을 보내서 숫자 누적을 끝냄
+
+for i in range(1, 101):   # 1부터 100까지 반복
+    co.send(i)            # 코루틴 accumulate에 숫자를 보냄
+co.send(None)             # 코루틴 accumulate에 None을 보내서 숫자 누적을 끝냄
