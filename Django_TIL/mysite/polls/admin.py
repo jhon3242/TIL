@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Choice, Question, Choice
+from .models import Choice, Question
 
-admin.site.register(Question)
-admin.site.register(Choice)
+class QuestionAdmin(admin.ModelAdmin):
+	fieldset = [
+		(None,		{'fields' : ['question_text']}),
+		('Date information')
+		]
+
+
+admin.site.register(Question, QuestionAdmin)
+# admin.site.register(Choice)

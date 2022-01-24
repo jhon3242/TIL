@@ -61,7 +61,7 @@ def detail(request, question_id):
 # 	template_name = 'polls/detail.html'
 
 
-# 1
+# # 1
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'question': question})
