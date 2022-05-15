@@ -1,9 +1,17 @@
 package com.example.playGround.member;
 
 
+import com.example.playGround.AppConfig;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 public class MemberServiceImpl implements MemberService{
 
-	private final MemberRepository memberRepository = new MemoryMemberRepository();
+	private final MemberRepository memberRepository;
+
+	public MemberServiceImpl(MemberRepository memberRepository) {
+		this.memberRepository = memberRepository;
+	}
 
 	@Override
 	public void join(Member member) {
