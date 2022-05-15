@@ -11,24 +11,25 @@ import com.example.playGround.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 public class AppConfig {
 
-//	@Bean
+	@Bean
 	public MemberRepository memberRepository() {
 		return new MemoryMemberRepository();
 	}
 
+	@Bean
 	public MemberService memberService(){
 		return new MemberServiceImpl(new MemoryMemberRepository());
 	}
 
-//	@Bean
+	@Bean
 	public DiscountPolicy discountPolicy(){
 		return new RateDiscountPolicy();
 	}
 
-//	@Bean
+	@Bean
 	public OrderService orderService(){
 		return new OrderServiceImpl();
 	}
