@@ -1,15 +1,25 @@
 package com.example.playGround.order;
 
+import com.example.playGround.annotation.FixDiscountPolicy;
 import com.example.playGround.discount.DiscountPolicy;
-import com.example.playGround.discount.FixDiscountPolicy;
 import com.example.playGround.member.Member;
 import com.example.playGround.member.MemberRepository;
 import com.example.playGround.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-	private MemberRepository memberRepository = new MemoryMemberRepository();
-	private DiscountPolicy discountPolicy = new FixDiscountPolicy();
+	private final MemberRepository memberRepository;
+	private final DiscountPolicy discountPolicy;
+
+	public OrderServiceImpl(MemberRepository memberRepository, @FixDiscountPolicy  DiscountPolicy discountPolicy) {
+		this.memberRepository = memberRepository;
+		this.discountPolicy = discountPolicy;
+	}
 
 	@Override
 	public Order createOrder(Long memberId, String itemName, int itemPrice) {

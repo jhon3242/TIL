@@ -21,7 +21,7 @@ public class AppConfig {
 
 	@Bean
 	public MemberService memberService(){
-		return new MemberServiceImpl(new MemoryMemberRepository());
+		return new MemberServiceImpl(memberRepository());
 	}
 
 	@Bean
@@ -31,6 +31,6 @@ public class AppConfig {
 
 	@Bean
 	public OrderService orderService(){
-		return new OrderServiceImpl();
+		return new OrderServiceImpl(memberRepository(), discountPolicy());
 	}
 }
