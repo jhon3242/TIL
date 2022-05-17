@@ -3,6 +3,8 @@ package com.example.playGround.lifecycle;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
@@ -32,12 +34,13 @@ public class NetworkClient {
 	}
 
 
+	@PostConstruct
 	public void init() {
 		connect();
 		call("초기화 연결 메시지");
 	}
 
-
+	@PreDestroy
 	public void close() {
 		disconnect();
 	}
