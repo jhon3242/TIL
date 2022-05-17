@@ -8,7 +8,7 @@ import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
 import java.util.Hashtable;
 
-public class NetworkClient implements InitializingBean, DisposableBean {
+public class NetworkClient {
 	private String url;
 
 	public void setUrl(String url) {
@@ -31,14 +31,14 @@ public class NetworkClient implements InitializingBean, DisposableBean {
 		System.out.println("close : " + url);
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+
+	public void init() {
 		connect();
 		call("초기화 연결 메시지");
 	}
 
-	@Override
-	public void destroy() throws Exception {
+
+	public void close() {
 		disconnect();
 	}
 }
