@@ -36,7 +36,7 @@ public class SingletonWithPrototypeTest3 {
 		private ObjectProvider<PrototypeBean> prototypeBeanProvider;
 
 		public int logic(){
-			prototypeBeanProvider.getObject()
+			PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
 			prototypeBean.addCount();
 			int count = prototypeBean.getCount();
 			return count;
